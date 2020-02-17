@@ -40,9 +40,12 @@ foreach (<FH>) {
 
 my @keys = sort { $ascounter{$b} <=> $ascounter{$a} } keys(%ascounter);
 # List the x top number of ASNs
-my $i = 20;
+my $i = 10;
+my @topx;
 
 foreach (@keys) {
+
+	push(@topx, $_);
 
 	print "AS$_"."\t".$ascounter{$_}."\n";
 
@@ -51,4 +54,30 @@ foreach (@keys) {
 	}
 }
 
+#
+# Check prefix's origin(s) seen match WHOIS/IRR
+#
+sub checkOrigin {
 
+	my $list = shift;
+	my $origin = shift;
+
+	foreach(@{$list}) {
+		if(int($_) == int($origin)) {
+			next;
+		}else{
+			print "WARNING: Origin $_ not valid\n";
+		}
+	}
+
+}
+
+foreach(@topx) {
+
+	foreach(keys(%asn)) {
+	
+		my $as	
+
+	}
+
+}
