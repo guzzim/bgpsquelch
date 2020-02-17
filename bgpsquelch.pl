@@ -4,6 +4,13 @@ use Net::IRR;
 use Net::Whois::Raw;
 use Getopt::Long;
 
+# Lookup prefix in RADB
+#
+
+# CLI Tools
+my $bgpscanner = '/home/abpb/bgpscanner/build/bgpscanner';
+my $cut = '/usr/bin/cut';
+
 my $prefix = '';
 GetOptions ("prefix=s" => \$prefix);
 
@@ -33,14 +40,29 @@ my $queryas = 'AS'."$as";
 
 #my $autnum = $i->match('aut-num',"$queryas");
 
-print "Autnum $autnum\n";
-
-# Lookup prefix in RADB
-#
+#print "Autnum $autnum\n";
 
 
 # Lookup prefix in MRT dump
+# Should be able to get away with backticks
+# Querying the PAIX bview file
+my $output = `/home/abpb/bgpscanner/build/bgpscanner -e 202.6.112.0/24 ~/MTRdump/latest-bview | /usr/bin/cut -d"|" -f 3`;
+
+my $list;
+@{$list} = split('\n', $output);
+
+foreach(@{$list}) {
+	if($_ =~ m/\s+(\d+)$/) {
+		if($1 eq $as) {
+			# Origin AS Matches
+			next;
+		}else{
+			print "WARNING: Being originated by AS$as\n";
+		}
+	}
+}
 
 
 # Check prefix against RPKI Validator
+# Backticks with rtrclient to query a validator
 ## is prefix mask within range
