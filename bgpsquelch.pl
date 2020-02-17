@@ -46,7 +46,7 @@ my $queryas = 'AS'."$as";
 # Lookup prefix in MRT dump
 # Should be able to get away with backticks
 # Querying the PAIX bview file
-my $output = `/home/abpb/bgpscanner/build/bgpscanner -e 202.6.112.0/24 ~/MTRdump/latest-bview | /usr/bin/cut -d"|" -f 3`;
+my $output = `/home/abpb/bgpscanner/build/bgpscanner -e $prefix ~/MTRdump/latest-bview | /usr/bin/cut -d"|" -f 3`;
 
 my $list;
 @{$list} = split('\n', $output);
@@ -66,3 +66,7 @@ foreach(@{$list}) {
 # Check prefix against RPKI Validator
 # Backticks with rtrclient to query a validator
 ## is prefix mask within range
+#
+# Using FORT and pulled the database out to a csv
+#
+# rtrclient -e -t csv -o /tmp/roa.csv tcp 192.168.86.129 8323
