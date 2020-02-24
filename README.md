@@ -19,3 +19,7 @@ https://gitlab.com/Isolario/bgpscanner
 
 Python Library
 https://jon.oberheide.org/pybgpdump/
+
+#
+ftp://ftp.apnic.net/pub/apnic/whois/
+#
